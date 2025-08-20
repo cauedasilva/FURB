@@ -5,8 +5,8 @@ public class Uni2Exe13 {
         Scanner teclado = new Scanner(System.in);
         System.out.println("Digite a distância em KM: ");
         int distancia = teclado.nextInt();
-        distancia = (60 * distancia) / 30;
-        System.out.printf("O carro irá alcançar o outro em: %d minutos",  distancia);
+        int minutos = (60 * distancia) / 30;
+        System.out.printf("O carro Y irá tomar a distância de %dKM do carro X em: %d minutos",  distancia, minutos);
         teclado.close();
     }
 }
