@@ -46,7 +46,7 @@ public class Uni2Exe15 {
     }
 }
 /*
- * Inserido valor: 233, resultado esperado:
+ * Inserido valor: 233.57, resultado esperado:
  * Notas de 100: 2
 Notas de 50: 0
 Notas de 20: 1
@@ -54,4 +54,9 @@ Notas de 10: 1
 Notas de 5: 0
 Notas de 2: 1
 Moedas de 1: 1
+Moedas de .50: 1
+Moedas de .25: 0
+Moedas de .10: 0
+Moedas de .05: 1
+Moedas de .01: 2
  */

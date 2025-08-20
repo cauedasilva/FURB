@@ -19,3 +19,9 @@ public class Uni2Exe17 {
         teclado.close();
     }
 }
+/*
+ * Inserido número de horas trabalhadas: 120, número de dependentes: 3
+ * Resultado esperado: 
+ * Salário bruto: R$ 1380
+    Salário líquido: R$ 1193,70
+ */
