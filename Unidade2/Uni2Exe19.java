@@ -14,3 +14,7 @@ public class Uni2Exe19 {
         teclado.close();
     }
 }
+/*
+ * Inserido valores B: 5, C: 10, D: 15
+ * Resultado esperado A: 5
+ */
