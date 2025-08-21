@@ -4,11 +4,11 @@ public class Uni2Exe18 {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
         System.out.println("Digite o comprimento da parede em metros: ");
-        int comprimento = teclado.nextInt();
+        float comprimento = teclado.nextFloat();
         System.out.println("Digite a altura da parede em metros: ");
-        int altura = teclado.nextInt();
-        int area = altura * comprimento;
-        int azulejos = area * 9;
+        float altura = teclado.nextFloat();
+        float area = altura * comprimento;
+        float azulejos = area * 9;
         float valor = azulejos * 12.50f;
         System.out.printf("O valor gasto em azulejos é de: R$ %.2f", valor);
         teclado.close();
