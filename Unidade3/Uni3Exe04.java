@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Uni3Exe04 {
-     static Scanner teclado = new Scanner(System.in);
+    static Scanner teclado = new Scanner(System.in);
     
     public static void main(String[] args) {
         float nota1 = lerNota("primeira");
