@@ -15,17 +15,25 @@ public class Calculadora {
     }
 
     public static float calcular(float num1, float num2, int operacao) {
-        if (operacao == 1) {
-            return calcularSoma(num1, num2);
-        } else if (operacao == 2) {
-            return calcularDiv(num1, num2);
-        } else if (operacao == 3) {
-            return calcularMult(num1, num2);
-        } else if (operacao == 4) {
-            return calcularSub(num1, num2);
-        } else {
-            return 0;
+        float resultado;
+        switch (operacao) {
+            case 1:
+                resultado = calcularSoma(num1, num2);
+                break;
+            case 2:
+                resultado = calcularDiv(num1, num2);
+                break;
+            case 3:
+                resultado = calcularMult(num1, num2);
+                break;
+            case 4:
+                resultado = calcularSub(num1, num2);
+                break;
+            default:
+                resultado = 0;
+                break;
         }
+        return resultado;
     }
 
     public static float calcularSoma(float num1, float num2) {
@@ -69,7 +77,5 @@ public class Calculadora {
         } else {
             System.out.println("A operação escolhida é inválida");
         }
-        
     }
-
 }
