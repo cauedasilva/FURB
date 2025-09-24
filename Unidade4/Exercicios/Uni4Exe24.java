@@ -14,7 +14,7 @@ public class Uni4Exe24 {
         num1 = sc.nextInt();
         num2 = sc.nextInt();
         num3 = sc.nextInt();
-        System.out.println("Informe a opção desejada: \n1 - escreva os 3 valores em ordem crescente  \n2 - escreva os 3 valores em ordem decrescente \n3 - escreva os 3 valores de forma que o maior valor fique no meio");
+        System.out.println("Informe a opção desejada: \n1 - escreva os 3 valores em ordem decrescente  \n2 - escreva os 3 valores em ordem crescente \n3 - escreva os 3 valores de forma que o maior valor fique no meio");
         opcao = sc.nextInt();
     }
 
