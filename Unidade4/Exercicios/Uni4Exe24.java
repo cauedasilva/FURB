@@ -2,10 +2,11 @@ import java.util.Scanner;
 
 public class Uni4Exe24 {
     Scanner sc = new Scanner(System.in);
-    int opcao, num1, num2, num3;
+    int opcao, num1, num2, num3, maior, meio, menor;
 
     public Uni4Exe24() {
         informarValor();
+        elencarNumeros();
         exibirResultado();
     }
 
@@ -14,17 +15,17 @@ public class Uni4Exe24 {
         num1 = sc.nextInt();
         num2 = sc.nextInt();
         num3 = sc.nextInt();
-        System.out.println("Informe a opção desejada: \n1 - escreva os 3 valores em ordem decrescente  \n2 - escreva os 3 valores em ordem crescente \n3 - escreva os 3 valores de forma que o maior valor fique no meio");
+        System.out.println("Informe a opção desejada: \n1 - escreva os 3 valores em ordem crescente  \n2 - escreva os 3 valores em ordem decrescente \n3 - escreva os 3 valores de forma que o maior valor fique no meio");
         opcao = sc.nextInt();
     }
 
     private void exibirResultado() {
         switch (opcao) {
             case 1:
-                calcularDecrescente();
+                calcularCrescente();
                 break;
             case 2:
-                calcularCrescente();
+                calcularDecrescente();
                 break;
             case 3:
                 calcularMeio();
@@ -35,52 +36,47 @@ public class Uni4Exe24 {
         }
     }
 
-    private void calcularCrescente() {
-        if (num1 > num2 && num2 > num3) {
-            System.out.printf("%d %d %d", num1, num2, num3);
-        } else if (num2 > num3 && num3 > num1) {
-            System.out.printf("%d %d %d", num2, num3, num3);
-        } else if (num3 > num2 && num2 > num1) {
-            System.out.printf("%d %d %d",num3, num2, num1);
-        } else if (num2 > num1 && num1 > num3) {
-            System.out.printf("%d %d %d",num2, num1, num3);
-        } else if (num3 > num1 && num1 > num2) {
-            System.out.printf("%d %d %d",num3, num1, num2);
+    private void elencarNumeros() {
+        if (num1 < num2 && num1 < num3) {
+            menor = num1;
+            if (num2 < num3) {
+                meio = num2;
+                maior = num3;
+            } else {
+                meio = num3;
+                maior = num2;
+            }
+        } else if (num2 < num1 && num2 < num3) {
+            menor = num2;
+            if (num1 < num3) {
+                meio = num1;
+                maior = num3;
+            } else {
+                meio = num3;
+                maior = num1;
+            }
         } else {
-            System.out.printf("%d %d %d",num1, num3, num2);
+            menor = num3;
+            if (num1 < num2) {
+                meio = num1;
+                maior = num2;
+            } else {
+                meio = num2;
+                maior = num1;
+            }
         }
+    }
+
+    private void calcularCrescente() {
+        System.out.printf("%d %d %d", menor, meio, maior);
     }
 
     private void calcularDecrescente() {
-        if (num1 > num2 && num2 > num3) {
-            System.out.printf("%d %d %d",num3, num2, num1);
-        } else if (num2 > num3 && num3 > num1) {
-            System.out.printf("%d %d %d",num1, num3, num2);
-        } else if (num3 > num2 && num2 > num1) {
-            System.out.printf("%d %d %d",num1, num2, num3);
-        } else if (num2 > num1 && num1 > num3) {
-            System.out.printf("%d %d %d",num3, num1, num2);
-        } else if (num3 > num1 && num1 > num2) {
-            System.out.printf("%d %d %d",num2, num1, num3);
-        } else {
-            System.out.printf("%d %d %d",num2, num3, num1);
-        }
+        System.out.printf("%d %d %d", maior, meio, menor);
     }
 
     private void calcularMeio() {
-        if (num1 > num2 && num2 > num3) {
-            System.out.printf("%d %d %d",num2, num1, num3);
-        } else if (num2 > num3 && num3 > num1) {
-            System.out.printf("%d %d %d",num3, num2, num3);
-        } else if (num3 > num2 && num2 > num1) {
-            System.out.printf("%d %d %d",num2, num3, num1);
-        } else if (num2 > num1 && num1 > num3) {
-            System.out.printf("%d %d %d",num1, num2, num3);
-        } else if (num3 > num1 && num1 > num2) {
-            System.out.printf("%d %d %d",num1, num3, num2);
-        } else {
-            System.out.printf("%d %d %d",num3, num1, num2);
-        }
+        System.out.printf("%d %d %d", meio, maior, menor);
     }
 
 
