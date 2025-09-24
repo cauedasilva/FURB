@@ -2,10 +2,13 @@ import java.util.Scanner;
 
 public class Uni4Exe27 {
     Scanner sc = new Scanner(System.in);
-    int horaChegada, minSaida, horaSaida, minChegada, horasEstacionado, minutosEstacionado, minutosTotais;
+    int minutosSaidaTotal, minutosChegadaTotal, horaChegada, minSaida, horaSaida, minChegada, horasEstacionado, minutosEstacionado, minutosTotais;
+    float horasParaCobrar, valorTotal;
 
     public Uni4Exe27() {
         informarValor();
+        calcularTempo();
+        calcularValor();
         exibirResultado();
     }
 
@@ -20,26 +23,12 @@ public class Uni4Exe27 {
         minSaida = sc.nextInt();
     }
 
-    private void exibirResultado() {
-        if (horaChegada < 0 || horaChegada > 23 || horaSaida < 0 || horaSaida > 23 || minChegada < 0 || minChegada > 59 || minSaida < 0 || minSaida > 59) {
-            System.out.println("Horário inválido");
-        }
-
-        int minutosChegadaTotal = horaChegada * 60 + minChegada;
-        int minutosSaidaTotal = horaSaida * 60 + minSaida;
-
-        if (minutosSaidaTotal < minutosChegadaTotal) {
-            System.out.println("Horário inválido");
-        }
-
+    private void calcularTempo() {
+        minutosChegadaTotal = horaChegada * 60 + minChegada;
+        minutosSaidaTotal = horaSaida * 60 + minSaida;
         minutosTotais = minutosSaidaTotal - minutosChegadaTotal;
         horasEstacionado = minutosTotais / 60;
         minutosEstacionado = minutosTotais % 60;
-
-        float valorPrimeirasHoras = 5.0f;
-        float valorTerceiraHora = 7.5f;
-        float ValorDemaisHoras = 10.0f;
-        float horasParaCobrar, valorTotal;
 
         if (minutosTotais < 30) {
             horasParaCobrar = 1;
@@ -48,6 +37,12 @@ public class Uni4Exe27 {
         } else {
             horasParaCobrar = horasEstacionado + 1;
         }
+    }
+
+    private void calcularValor() {
+        float valorPrimeirasHoras = 5.0f;
+        float valorTerceiraHora = 7.5f;
+        float ValorDemaisHoras = 10.0f;
 
         if (horasParaCobrar <= 2) {
             valorTotal = valorPrimeirasHoras * horasParaCobrar;
@@ -57,12 +52,16 @@ public class Uni4Exe27 {
             valorTotal = (valorPrimeirasHoras * 2) + (valorTerceiraHora *2);
         } else {
             valorTotal = (valorPrimeirasHoras * 2) + (valorTerceiraHora *2) + (ValorDemaisHoras * (horasParaCobrar - 4));
-        } 
-
-        System.out.printf("O valor a ser pago é: R$ %.2f", valorTotal);
-
+        }
     }
 
+    private void exibirResultado() {
+        if (horaChegada < 0 || horaChegada > 23 || horaSaida < 0 || horaSaida > 23 || minChegada < 0 || minChegada > 59 || minSaida < 0 || minSaida > 59 || minutosSaidaTotal < minutosChegadaTotal) {
+            System.out.println("Horário inválido");
+        } else {
+            System.out.printf("O valor a ser pago é: R$ %.2f", valorTotal);
+        }
+    }
 
     public static void main(String[] args) {
         new Uni4Exe27();
