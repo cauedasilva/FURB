@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Uni5Exe05 {
     Scanner sc = new Scanner(System.in);
-    double num, x;
+    int num, x = 4;
 
     public Uni5Exe05() {
         inserirValor();
@@ -21,12 +21,11 @@ public class Uni5Exe05 {
     private void exibirResultado(double num) {
         for (int i = 1; i <= num; i++) {
             if (i % 2 == 0) {
-                x = i * (i + 1);
-                System.out.print(x + ", ");
+                x = x + 2;
             } else {
-                x = 2 * i + 1;
-                System.out.print(x + ", ");
+                x = (x - 2) * 2;
             }
+            System.out.print(x + " ");
         }    
     }
 

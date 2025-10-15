@@ -11,7 +11,6 @@ public class Uni5Exe04 {
             y = i * (i + 1);
             total += x / y;
         }
-
         System.out.println(total);
     }
 
