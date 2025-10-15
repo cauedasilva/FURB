@@ -22,15 +22,13 @@ public class Uni5Exe07 {
     }
 
     private void elencarNumeros(float n) {
-        for (int i = 1; i <= num; i++) {
-            if (maior == 0 && menor == 0) {
-                maior = n;
-                menor = n;
-            } else if (n > maior) {
-                maior = n;
-            } else if (n < menor) {
-                menor = n;
-            }
+        if (maior == 0 && menor == 0) {
+            maior = n;
+            menor = n;
+        } else if (n > maior) {
+            maior = n;
+        } else if (n < menor) {
+            menor = n;
         }
     }
 
