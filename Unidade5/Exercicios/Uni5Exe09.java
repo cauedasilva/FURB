@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Uni5Exe09 {
     Scanner sc = new Scanner(System.in);
-    int num, idade, idadeAcimaVinte, idadeDezoito;
+    int num, idade, idadeAcimaVinte;
     String nomesDezoito = "", nome;
     
     
@@ -24,7 +24,6 @@ public class Uni5Exe09 {
             if (idade > 20) {
                 idadeAcimaVinte++;
             } else if (idade == 18) {
-                idadeDezoito++;
                 nomesDezoito += nome + ", ";
             }
         }
