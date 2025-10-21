@@ -32,7 +32,11 @@ public class Uni5Exe09 {
 
     private void exibirResultado() {
         System.out.println("Quantidade de alunos que tem idade acima de 20 anos: " + idadeAcimaVinte);
-        System.out.println("Nome dos alunos que tem 18 anos: " + nomesDezoito);
+        if (nomesDezoito == "") {
+            System.out.println("Não há alunos com 18 anos de idade");
+        } else {
+            System.out.println("Nome dos alunos que tem 18 anos: " + nomesDezoito);
+        }
     }
 
     public static void main(String[] args) {
