@@ -9,7 +9,7 @@ public class Uni5Exe09 {
     
     public Uni5Exe09() {
         inserirValor();
-        exibirResultado(idadeDezoito);
+        exibirResultado();
     }
 
     private void inserirValor() {
@@ -30,7 +30,7 @@ public class Uni5Exe09 {
         }
     }
 
-    private void exibirResultado(int num) {
+    private void exibirResultado() {
         System.out.println("Quantidade de alunos que tem idade acima de 20 anos: " + idadeAcimaVinte);
         System.out.println("Nome dos alunos que tem 18 anos: " + nomesDezoito);
     }
