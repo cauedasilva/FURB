@@ -15,7 +15,7 @@ public class Uni5Exe12 {
     }
 
     private void exibirResultado() {
-       for (int i = 0; i < num; i++) {
+       for (int i = 0; i < num + 1; i++) {
             for (int j = 0; j < i; j++) {
                 System.out.print(k + " ");
                 k++;
