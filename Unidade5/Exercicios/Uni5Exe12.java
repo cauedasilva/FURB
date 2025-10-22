@@ -22,8 +22,6 @@ public class Uni5Exe12 {
             }
             System.out.println();
         }
-
-        System.out.println("o total é: " + num);
     }
 
     public static void main(String[] args) {
