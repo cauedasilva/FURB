@@ -5,6 +5,7 @@ public class Uni5Exe16 {
     char gen;
     float altura, totalAltura, totalAlturaMulheres, mediaMulheres, mediaTotal;
     int contMulheres, contOutros;
+    boolean continuar = true;
 
     public Uni5Exe16() {
         inserirValor();
@@ -12,10 +13,11 @@ public class Uni5Exe16 {
     }
 
     private void inserirValor() {
-        while (true) {
+        while (continuar) {
             System.out.println("Informe a altura: ");
             altura = sc.nextFloat();
             if (altura == 0) {
+                continuar = false;
                 break;
             }
             System.out.println("Informe o gênero: ");

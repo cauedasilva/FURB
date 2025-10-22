@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Uni5Exe15 {
     Scanner sc = new Scanner(System.in);
     String nome;
+    boolean continuar = true;
     float nota1, nota2, media;
 
     public Uni5Exe15() {
@@ -10,10 +11,11 @@ public class Uni5Exe15 {
     }
 
     private void inserirValor() {
-        while (true) {
+        while (continuar) {
             System.out.println("Nome do aluno: ");
             nome = sc.next();
             if (nome.equals("fim")) {
+                continuar = false;
                 break;
             }
             System.out.println("Informe a primeira nota: ");

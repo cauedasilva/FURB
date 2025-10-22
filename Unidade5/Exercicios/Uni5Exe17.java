@@ -4,6 +4,7 @@ public class Uni5Exe17 {
     Scanner sc = new Scanner(System.in);
     int num, maiorNum, menorNum, contMedia;
     float altura, maiorAltura, menorAltura, mediaTotal, somaAlturas;
+    boolean continuar = true;
 
     public Uni5Exe17() {
         inserirValor();
@@ -11,10 +12,11 @@ public class Uni5Exe17 {
     }
 
     private void inserirValor() {
-        while (true) {
+        while (continuar) {
             System.out.println("Nº de inscrição: ");
             num = sc.nextInt();
             if (num == 0) {
+                continuar = false;
                 break;
             }
             System.out.println("Informe a altura: ");
