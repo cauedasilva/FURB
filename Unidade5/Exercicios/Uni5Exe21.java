@@ -2,28 +2,23 @@ import java.util.Scanner;
 
 public class Uni5Exe21 {
     Scanner sc = new Scanner(System.in);
-    double massa, massaInicial;
-    int segundos; 
+    double chico = 1.5, ze = 1.1;
+    int anos;
 
     public Uni5Exe21() {
-        inserirValor();
         exibirResultado();
     }
 
-    private void inserirValor() {
-        System.out.println("Informe a massa inicial do material (em kg): ");
-        massa = sc.nextFloat();
-        massaInicial = massa;
-        while (massa >= 0.0005) {
-            massa /= 2;
-            segundos += 50;
-        }
-    }
-
     private void exibirResultado() {
-        System.out.println("Tempo necessário para a massa atingir menos de 0,5g: " + segundos / 60 + " minutos e " + segundos % 60 + " segundos.");
-        System.out.println("massa inicial: " + massaInicial + " kg.");
-        System.out.println("massa final: " + massa + " kg.");
+        while (chico > ze) {
+            ze += 0.03;
+            chico += 0.02;
+            anos += 1;
+        }
+
+        System.out.println("A altura de Chico é: " + chico + "m");
+        System.out.println("A altura de Zé é: " + ze + "m");
+        System.out.println("Foram necessários " + anos + " anos para Zé ultrapassar Chico em altura");
     }
 
     public static void main(String[] args) {
