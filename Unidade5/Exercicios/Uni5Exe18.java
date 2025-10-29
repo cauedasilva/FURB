@@ -42,10 +42,10 @@ public class Uni5Exe18 {
     }
 
     private void exibirResultado() {
-        System.out.println("Percentual de audiência do canal 4: " + totalAudiencia * canalQuatro);
-        System.out.println("Percentual de audiência do canal 5: " + totalAudiencia * canalCinco);
-        System.out.println("Percentual de audiência do canal 9: " + totalAudiencia * canalNove);
-        System.out.println("Percentual de audiência do canal 12: " + totalAudiencia * canalDoze);
+        System.out.println("Percentual de audiência do canal 4: " + (canalQuatro / totalAudiencia) * 100 + "%");
+        System.out.println("Percentual de audiência do canal 5: " + (canalCinco / totalAudiencia) * 100 + "%");
+        System.out.println("Percentual de audiência do canal 9: " + (canalNove / totalAudiencia) * 100 + "%");
+        System.out.println("Percentual de audiência do canal 12: " + (canalDoze / totalAudiencia) * 100 + "%");
     }
 
     public static void main(String[] args) {
