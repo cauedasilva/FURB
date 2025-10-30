@@ -11,23 +11,18 @@ public class Uni5Exe31 {
     private void inserirValor() {
         System.out.println("Informe um número inteiro positivo: ");
         num = sc.nextInt();
-        System.out.print("Decomposição de " + num + ": ");
+        System.out.println("Decomposição de " + num + ": ");
 
-        while (divisor * divisor <= num) {
+        while (divisor <= num) {
             while (num % divisor == 0) {
+                System.out.print(num + " ");
                 System.out.print(divisor);
+                System.out.println();
                 num /= divisor;
-
-                if (num > 1) {
-                    System.out.print(" x ");
-                }
             }
             divisor++;
         }
-
-        if (num > 1) {
-            System.out.print(num);
-        }
+        System.out.println(num);
     }
 
     public static void main(String[] args) {
