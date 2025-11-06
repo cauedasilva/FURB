@@ -7,9 +7,9 @@ public class Matriz {
     
     public Matriz() {
         preencherMatriz();
+        calcularDiagonais();
         calcularLinhas();
         calcularColunas();
-        calcularDiagonais();
         calcularMaiorValor();
         exibirMatriz();
     }
@@ -18,58 +18,43 @@ public class Matriz {
         for (int i = 0; i < matriz.length - 1; i++) {
             for (int j = 0; j < matriz.length - 1; j++) {
                 Random random = new Random();
-                //matriz[i][j] = random.nextInt(-500, 500);
-                matriz[i][j] = 1;
+                matriz[i][j] = random.nextInt(-500, 500);
             }
         }
     }
 
     private void calcularLinhas() {
         for (int i = 0; i < matriz.length; i++) {
+            somaLinha = 0;
             for (int j = 0; j < matriz.length; j++) {
                 somaLinha += matriz[i][j];
-                if (matriz[i][j] == matriz[i][50]) {
-                    matriz[i][j] = somaLinha;
-                    somaLinha = 0;
-                }
             }
-
+            matriz[i][50] = somaLinha;
         }
     }
 
     private void calcularColunas() {
-        for (int i = 0; i < matriz.length; i++) {
+        for (int j = 0; j < matriz.length; j++) {
             somaColunas = 0;
-            for (int j = 0; j < matriz.length; j++) {
+            for (int i = 0; i < matriz.length; i++) {
                 somaColunas += matriz[i][j];
-                if (matriz[i][j] == matriz[50][j]) {
-                    matriz[i][j] = somaColunas;
-                }
             }
+            matriz[50][j] = somaColunas;
         }
     }
 
     private void calcularDiagonais() {
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz.length; j++) {
-                if (i == j) {
-                    somaPrimeiraDiagonal += matriz[i][j];
-                }
-            }
-
-        }
+        somaPrimeiraDiagonal = 0;
+        somaSegundaDiagonal = 0;
 
         for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz.length; j++) {
-                if (i + j == matriz.length - 1) {
-                    somaSegundaDiagonal += matriz[i][j];
-                }
-            }
+            somaPrimeiraDiagonal += matriz[i][i];
+            somaSegundaDiagonal += matriz[i][matriz.length - 1 - i];
         }
 
         somaDiagonalTotal = somaPrimeiraDiagonal + somaSegundaDiagonal;
+
         matriz[50][50] = somaDiagonalTotal;
-        System.out.println(somaDiagonalTotal);
     }
 
     private void calcularMaiorValor() {
@@ -91,6 +76,7 @@ public class Matriz {
         }
 
         System.out.println("O maior número na matriz é: " + maior);
+        System.out.println("A soma das diagonais é: " + somaDiagonalTotal);
     }
 
     public static void main(String[] args) {
