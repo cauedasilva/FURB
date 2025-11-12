@@ -19,7 +19,6 @@ public class Uni6Exe08 {
                     System.out.println("Informe o número da posição " + i + ":");
                     numeros[i] = sc.nextDouble();
                 }
-                System.out.println("Valor | Frequência");
                 medirFrequencia(numeros);
                 continuar = false;
                 break;
@@ -28,14 +27,20 @@ public class Uni6Exe08 {
     }
 
     private void medirFrequencia(double[] arr) {
+        System.out.println("Valor   Frequência");
+        boolean repetido[] = new boolean[arr.length];
+
         for (int i = 0; i < arr.length; i++) {
-            int frequencia = 0;
-            for (int j = 0; j < arr.length; j++) {
-                if (arr[i] == arr[j]) {
-                    frequencia++;
+            if (!repetido[i]) {
+                int frequencia = 0;
+                for (int j = 0; j < arr.length; j++) {
+                    if (arr[i] == arr[j]) {
+                        frequencia++;
+                        repetido[j] = true;
+                    }
                 }
+                exibirResultado(arr, frequencia, i);
             }
-            exibirResultado(arr, frequencia, i);
         }
     }
 
