@@ -121,7 +121,7 @@ public class Uni6Exe10 {
     private void inverterValores(int[] arr) {
         int temp;
         //boolean trocado[] = new boolean[posicao];
-        for (int i = 0; i < posicao - 1; i++) {
+        for (int i = 0; i < posicao; i++) {
             /*
             if (trocado[i] == false) {
                 temp = arr[i];
@@ -130,7 +130,7 @@ public class Uni6Exe10 {
                 i = -1;
             }
             */
-            for (int j = 0; j < posicao; j++) {
+            for (int j = 0; j < i; j++) {
                 temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
