@@ -119,38 +119,16 @@ public class Uni6Exe10 {
     }
 
     private void inverterValores(int[] arr) {
-        int temp;
-        //boolean trocado[] = new boolean[posicao];
-        for (int i = 0; i < posicao; i++) {
-            /*
-            if (trocado[i] == false) {
-                temp = arr[i];
-                arr[i] = arr[i + 1];
-                arr[i + 1] = temp;
-                i = -1;
-            }
-            */
-            for (int j = 0; j < i; j++) {
-                temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
+        int i = 0;
+        int j = posicao - 1;
+        while (i < j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
         }
-
-        // outro método
-        /*
-        for (int i = 0; i < posicao - 1; i++) {
-                if (arr[i] > arr[i + 1]) {
-                    temp = arr[i];
-                    arr[i] = arr[i + 1];
-                    arr[i + 1] = temp;
-                    i = -1;
-                }
-            }
-        }
-        */
     }
-
 
     public static void main(String[] args) {
         new Uni6Exe10();
