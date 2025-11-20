@@ -63,23 +63,30 @@ public class TrabalhoFinal {
 
         if (alvo.equals("~")) {
             System.out.println("Água!");
-            matrizTabuleiro[linha][coluna] = "X"; // substitui por X para marcar erro
+            matrizTabuleiro[linha][coluna] = "X";
             erros++;
-        } else if (alvo.startsWith("A") || alvo.equals("X")) { // já foi atingido antes
-            System.out.println("Você já atirou aqui!");
-        } else {
-            System.out.println("Acertou o navio " + alvo + "!");
-            matrizTabuleiro[linha][coluna] = "A";
-            matrizNavios[linha][coluna] = "A" + alvo; // substitui por A+id do navio para marcar acerto
-            totalAcertos++;
-
-            atualizarPartesRestantes(alvo); // diminui partes restantes do navio acertado
+            return; // sai da função se acertou água
         }
 
-        if (partesRestantes[obterIndexNavio(alvo)] == 0) { // checa se o navio foi afundado
+        if (alvo.startsWith("A") || alvo.equals("X")) {
+            System.out.println("Você já atirou aqui!");
+            return;
+        } // sai da função se já atirou aqui
+
+        String idOriginal = alvo; // guarda o id original do navio, pois será modificado
+        System.out.println("Acertou o navio " + idOriginal + "!");
+
+        matrizTabuleiro[linha][coluna] = "A";
+        matrizNavios[linha][coluna] = "A" + idOriginal; // marca acerto
+        totalAcertos++;
+
+        atualizarPartesRestantes(idOriginal); // diminui a parte restante do navio
+        int idx = obterIndexNavio(idOriginal); // obtém o índice do navio dentro do vetor
+
+        if (idx != -1 && partesRestantes[idx] == 0) { // checa se o id do navio é válido e se todas as partes foram acertadas
             naviosAfundados++;
-            System.out.println("\nO navio " + alvo + " foi AFUNDADO! \n");
-            transformarAcertosEmX(alvo);
+            System.out.println("\nO navio " + idOriginal + " foi afundado!\n");
+            transformarAcertosEmX(idOriginal);
         }
     }
 
