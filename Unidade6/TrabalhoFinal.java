@@ -13,6 +13,7 @@ public class TrabalhoFinal {
 
     int partesRestantes[] = new int[tamanhos.length]; // partes restantes de cada navio
 
+    // estatísticas do jogo
     int tentativas = 0;
     int maxTentativas = 30;
     int totalAcertos = 0;
@@ -26,61 +27,56 @@ public class TrabalhoFinal {
     }
 
     private void iniciarJogo() {
-        while (true) {
+        while (true) { // loop do jogo
             if (tentativas >= maxTentativas) {
                 finalizarJogo(false);
-                return;
+                break;
             }
 
             mostrarTabuleiro();
 
             System.out.println("Informe coordenadas do ataque:");
             System.out.print("Linha (0-7): ");
-            int l = sc.nextInt();
+            int linha = sc.nextInt();
             System.out.print("Coluna (0-7): ");
-            int c = sc.nextInt();
+            int coluna = sc.nextInt();
 
-            if (!coordenadaValida(l, c)) {
+            if (!coordenadaValida(linha, coluna)) {
                 System.out.println("Coordenada inválida!");
                 continue;
             }
 
             tentativas++;
-            processarAtaque(l, c);
-
-            mostrarEstatisticas();
+            processarAtaque(linha, coluna);
+            mostrarEstatisticas(); // mostra estatísticas após o ataque somente
 
             if (naviosAfundados == naviosId.length) {
                 finalizarJogo(true);
-                return;
+                break;
             }
         }
     }
 
-    private void processarAtaque(int l, int c) {
+    private void processarAtaque(int linha, int coluna) {
 
-        String alvo = matrizNavios[l][c];
+        String alvo = matrizNavios[linha][coluna];
 
         if (alvo.equals("~")) {
             System.out.println("Água!");
-            matrizTabuleiro[l][c] = "X";
+            matrizTabuleiro[linha][coluna] = "X"; // substitui por X para marcar erro
             erros++;
-            return;
-        }
-
-        if (alvo.startsWith("A") || alvo.equals("X")) {
+        } else if (alvo.startsWith("A") || alvo.equals("X")) { // já foi atingido antes
             System.out.println("Você já atirou aqui!");
-            return;
+        } else {
+            System.out.println("Acertou o navio " + alvo + "!");
+            matrizTabuleiro[linha][coluna] = "A";
+            matrizNavios[linha][coluna] = "A" + alvo; // substitui por A+id do navio para marcar acerto
+            totalAcertos++;
+
+            atualizarPartesRestantes(alvo); // diminui partes restantes do navio acertado
         }
 
-        System.out.println("Acertou o navio " + alvo + "!");
-        matrizTabuleiro[l][c] = "A";
-        matrizNavios[l][c] = "A" + alvo;
-        totalAcertos++;
-
-        atualizarPartesRestantes(alvo);
-
-        if (partesRestantes[obterIndexNavio(alvo)] == 0) {
+        if (partesRestantes[obterIndexNavio(alvo)] == 0) { // checa se o navio foi afundado
             naviosAfundados++;
             System.out.println("\nO navio " + alvo + " foi AFUNDADO! \n");
             transformarAcertosEmX(alvo);
@@ -98,11 +94,11 @@ public class TrabalhoFinal {
     }
 
     private void atualizarPartesRestantes(String id) {
-        int pos = obterIndexNavio(id);
+        int pos = obterIndexNavio(id); // obtém o índice do navio dentro do vetor
         partesRestantes[pos]--;
     }
 
-    private void inicializarMatrizes() {
+    private void inicializarMatrizes() { // inicializa as duas matrizes, oculta e visível para o usuário
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 matrizTabuleiro[i][j] = "~";
@@ -114,18 +110,18 @@ public class TrabalhoFinal {
         }            
     }
 
-    private void distribuirNavios() {
+    private void distribuirNavios() { // distribui os navios aleatoriamente na matriz de navios
         for (int i = 0; i < naviosId.length; i++) {
             int[] pos;
             do {
                 pos = gerarPosicao(tamanhos[i]);
-            } while (checarSobreposicao(pos, tamanhos[i]));
+            } while (checarSobreposicao(pos, tamanhos[i])); // repete até achar uma posição que não esteja ocupada
 
-            posicionarNavio(pos, tamanhos[i], naviosId[i]);
+            posicionarNavio(pos, tamanhos[i], naviosId[i]); // posiciona o navio na matriz
         }
     }
 
-    private int[] gerarPosicao(int tamanho) {
+    private int[] gerarPosicao(int tamanho) { // gera posição aleatória para o navio
         Random r = new Random();
         int direcao = r.nextInt(2);
 
@@ -150,69 +146,69 @@ public class TrabalhoFinal {
     }
 
     private boolean checarSobreposicao(int[] pos, int tamanho) {
-        int l = pos[0];
-        int c = pos[1];
-        int d = pos[2];
+        int linha = pos[0];
+        int coluna = pos[1];
+        int direcao = pos[2];
 
-        if (d == 0) {
-            for (int j = c; j < c + tamanho; j++) {
-                if (!matrizNavios[l][j].equals("~")) {
+        if (direcao == 0) { // horizontal
+            for (int j = coluna; j < coluna + tamanho; j++) {
+                if (!matrizNavios[linha][j].equals("~")) {
                     return true;
                 }
             }
         }
-        else {
-            for (int i = l; i < l + tamanho; i++) {
-                if (!matrizNavios[i][c].equals("~")) {
+        else { // vertical
+            for (int i = linha; i < linha + tamanho; i++) {
+                if (!matrizNavios[i][coluna].equals("~")) {
                     return true;
                 }
             }
         }  
-        return false;
+        return false; // retorna falso se não houver sobreposição
     }
 
     private void posicionarNavio(int[] pos, int tamanho, String id) {
-        int l = pos[0];
-        int c = pos[1];
-        int d = pos[2];
+        int linha = pos[0];
+        int coluna = pos[1];
+        int direcao = pos[2];
 
-        if (d == 0) {
-            for (int j = c; j < c + tamanho; j++) {
-                matrizNavios[l][j] = id;
+        if (direcao == 0) { // horizontal
+            for (int j = coluna; j < coluna + tamanho; j++) {
+                matrizNavios[linha][j] = id;
             }
         }        
-        else {
-            for (int i = l; i < l + tamanho; i++) {
-                matrizNavios[i][c] = id;
+        else { // vertical
+            for (int i = linha; i < linha + tamanho; i++) {
+                matrizNavios[i][coluna] = id;
             }    
         }    
     }
 
     private int obterIndexNavio(String id) {
         for (int i = 0; i < naviosId.length; i++) {
-            if (naviosId[i].equals(id)) {
+            if (naviosId[i].equals(id)) { // encontrou o navio
                 return i;
             }
         }        
         return -1;
     }
 
-    private void finalizarJogo(boolean venceu) {
-        System.out.println("\n===== FIM DO JOGO =====");
+    private void finalizarJogo(boolean venceu) { 
+        System.out.println("\n----- Fim de jogo -----");
 
         if (venceu) {
-            System.out.println("🎉 PARABÉNS, VOCÊ AFUNDOU TODOS OS NAVIOS!");
+            System.out.println("Todos os navios foram afundados!");
         }
         else {
-            System.out.println("❌ Suas tentativas acabaram… você foi derrotado.");
+            System.out.println("Tentativas acabaram. Você perdeu.");
         }
 
-        revelarNavios();
-        mostrarEstatisticasFinais();
+        revelarNavios(); // mostra a matriz de navios que estava oculta
+        mostrarEstatisticasFinais(); // mostra estatísticas finais do jogo
     }
 
     private void revelarNavios() {
-        System.out.println("\n--- REVELANDO TODOS OS NAVIOS ---");
+        System.out.println("\n--- Revelando posição de todos os navios ---");
         System.out.println("  0 1 2 3 4 5 6 7");
         for (int i = 0; i < 8; i++) {
             System.out.print(i + " ");
@@ -232,17 +228,17 @@ public class TrabalhoFinal {
             percentual = totalAcertos * 100.0 / tentativas;
         }
 
-        System.out.println("\n===== ESTATÍSTICAS =====");
+        System.out.println("\n----- Estatísticas -----");
         System.out.println("Tentativa atual: " + tentativas + "/" + maxTentativas);
         System.out.println("Acertos: " + totalAcertos);
         System.out.println("Erros: " + erros);
         System.out.printf("Taxa de acerto: %.2f%%\n", percentual);
         System.out.println("Navios afundados: " + naviosAfundados + "/" + naviosId.length);
-        System.out.println("=========================\n");
+        System.out.println("----------------------\n");
     }
 
     private void mostrarEstatisticasFinais() {
-        System.out.println("\n===== ESTATÍSTICAS FINAIS =====");
+        System.out.println("\n----- Estatísticas finais -----");
 
         double percentual;
         if (tentativas == 0) {
@@ -264,11 +260,11 @@ public class TrabalhoFinal {
         else if (pontos >= 200) System.out.println("Classificação: Regular");
         else System.out.println("Classificação: Precisa melhorar");
 
-        System.out.println("==============================\n");
+        System.out.println("------------------------------\n");
     }
 
     private void mostrarTabuleiro() {
-        System.out.println("\n------ TABULEIRO ------");
+        System.out.println("\n------ Tabuleiro ------");
         System.out.println("  0 1 2 3 4 5 6 7");
 
         for (int i = 0; i < 8; i++) {
@@ -281,8 +277,8 @@ public class TrabalhoFinal {
         System.out.println("------------------------");
     }
 
-    private boolean coordenadaValida(int l, int c) {
-        return l >= 0 && l < 8 && c >= 0 && c < 8;
+    private boolean coordenadaValida(int linha, int coluna) {
+        return linha >= 0 && linha < 8 && coluna >= 0 && coluna < 8; // retorna se está dentro do tabuleiro
     }
 
     public static void main(String[] args) {
