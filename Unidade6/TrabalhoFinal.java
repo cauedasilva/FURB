@@ -73,11 +73,11 @@ public class TrabalhoFinal {
             return;
         } // sai da função se já atirou aqui
 
-        String idOriginal = alvo; // guarda o id original do navio, pois será modificado
+        String idOriginal = alvo; // guarda o id original do navio
         System.out.println("Acertou o navio " + idOriginal + "!");
 
         matrizTabuleiro[linha][coluna] = "A";
-        matrizNavios[linha][coluna] = "A" + idOriginal; // marca acerto
+        matrizNavios[linha][coluna] = "A" + idOriginal; // marca acerto na matriz oculta
         totalAcertos++;
 
         atualizarPartesRestantes(idOriginal); // diminui a parte restante do navio
@@ -90,7 +90,7 @@ public class TrabalhoFinal {
         }
     }
 
-    private void transformarAcertosEmX(String id) { // marca todas as partes do navio afundado com "X"
+    private void transformarAcertosEmX(String id) { // marca todas as partes do navio afundado com "X" dentro da matriz oculta
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (matrizNavios[i][j].equals("A" + id)) {
@@ -113,7 +113,7 @@ public class TrabalhoFinal {
             }
         }
         for (int i = 0; i < tamanhos.length; i++) {
-            partesRestantes[i] = tamanhos[i];
+            partesRestantes[i] = tamanhos[i]; // inicializa partes restantes com o tamanho do navio
         }            
     }
 
@@ -139,13 +139,13 @@ public class TrabalhoFinal {
             linha  = r.nextInt(8);
             coluna = r.nextInt(8);
             while (coluna + tamanho > 8) {
-                coluna = r.nextInt(8);
+                coluna = r.nextInt(8); // garante que o navio caiba na matriz
             }
         } else { // vertical
             coluna = r.nextInt(8);
             linha  = r.nextInt(8);
             while (linha + tamanho > 8) {
-                linha = r.nextInt(8);
+                linha = r.nextInt(8); // garante que o navio caiba na matriz
             }
         }
 
@@ -183,7 +183,7 @@ public class TrabalhoFinal {
             for (int j = coluna; j < coluna + tamanho; j++) {
                 matrizNavios[linha][j] = id;
             }
-        }        
+        }
         else { // vertical
             for (int i = linha; i < linha + tamanho; i++) {
                 matrizNavios[i][coluna] = id;
