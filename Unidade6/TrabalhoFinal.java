@@ -2,15 +2,12 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TrabalhoFinal {
-
     Scanner sc = new Scanner(System.in);
 
     String matrizTabuleiro[][] = new String[8][8];
     String matrizNavios[][] = new String[8][8];
-
     String naviosId[] = {"P", "C1", "C2", "D1", "D2", "D3", "S1", "S2", "S3", "S4"}; // navios com id única
-    int tamanhos[] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1};
-
+    int tamanhos[] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}; // tamanhos de cada navio
     int partesRestantes[] = new int[tamanhos.length]; // partes restantes de cada navio
 
     // estatísticas do jogo
@@ -43,22 +40,20 @@ public class TrabalhoFinal {
 
             if (!coordenadaValida(linha, coluna)) {
                 System.out.println("Coordenada inválida!");
-                continue;
-            }
+            } else {
+                tentativas++;
+                processarAtaque(linha, coluna);
+                mostrarEstatisticas(); // mostra estatísticas após o ataque somente
 
-            tentativas++;
-            processarAtaque(linha, coluna);
-            mostrarEstatisticas(); // mostra estatísticas após o ataque somente
-
-            if (naviosAfundados == naviosId.length) {
-                finalizarJogo(true);
-                break;
+                if (naviosAfundados == naviosId.length) {
+                    finalizarJogo(true);
+                    break;
+                }
             }
         }
     }
 
     private void processarAtaque(int linha, int coluna) {
-
         String alvo = matrizNavios[linha][coluna];
 
         if (alvo.equals("~")) {
@@ -73,31 +68,27 @@ public class TrabalhoFinal {
             return;
         } // sai da função se já atirou aqui
 
-        String idOriginal = alvo; // guarda o id original do navio
-        System.out.println("Acertou o navio " + idOriginal + "!");
+        System.out.println("Acertou o navio " + alvo + "!");
 
         matrizTabuleiro[linha][coluna] = "A";
-        matrizNavios[linha][coluna] = "A" + idOriginal; // marca acerto na matriz oculta
+        matrizNavios[linha][coluna] = "A" + alvo; // marca acerto na matriz oculta
         totalAcertos++;
 
-        atualizarPartesRestantes(idOriginal); // diminui a parte restante do navio
-        int idx = obterIndexNavio(idOriginal); // obtém o índice do navio dentro do vetor
+        atualizarPartesRestantes(alvo); // diminui a parte restante do navio
+        int id = obterIndexNavio(alvo); // obtém o índice do navio dentro do vetor
 
-        if (idx != -1 && partesRestantes[idx] == 0) { // checa se o id do navio é válido e se todas as partes foram acertadas
+        if (id != -1 && partesRestantes[id] == 0) { // checa se o id do navio é válido e se todas as partes foram acertadas
             naviosAfundados++;
-            System.out.println("\nO navio " + idOriginal + " foi afundado!\n");
-            transformarAcertosEmX(idOriginal);
-        }
-    }
+            System.out.println("\nO navio " + alvo + " foi afundado!\n");
 
-    private void transformarAcertosEmX(String id) { // marca todas as partes do navio afundado com "X" dentro da matriz oculta
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (matrizNavios[i][j].equals("A" + id)) {
-                    matrizNavios[i][j] = "X";
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (matrizNavios[i][j].equals("A" + id)) {
+                        matrizNavios[i][j] = "X";
+                    }
                 }
-            }
-        }    
+            }  
+        }
     }
 
     private void atualizarPartesRestantes(String id) {
@@ -149,7 +140,8 @@ public class TrabalhoFinal {
             }
         }
 
-        return new int[] {linha, coluna, direcao};
+        int pos[] = {linha, coluna, direcao};
+        return pos;
     }
 
     private boolean checarSobreposicao(int[] pos, int tamanho) {
@@ -163,14 +155,13 @@ public class TrabalhoFinal {
                     return true;
                 }
             }
-        }
-        else { // vertical
+        } else { // vertical
             for (int i = linha; i < linha + tamanho; i++) {
                 if (!matrizNavios[i][coluna].equals("~")) {
                     return true;
                 }
             }
-        }  
+        }
         return false; // retorna falso se não houver sobreposição
     }
 
@@ -183,8 +174,7 @@ public class TrabalhoFinal {
             for (int j = coluna; j < coluna + tamanho; j++) {
                 matrizNavios[linha][j] = id;
             }
-        }
-        else { // vertical
+        } else { // vertical
             for (int i = linha; i < linha + tamanho; i++) {
                 matrizNavios[i][coluna] = id;
             }    
@@ -196,7 +186,7 @@ public class TrabalhoFinal {
             if (naviosId[i].equals(id)) { // encontrou o navio
                 return i;
             }
-        }        
+        }
         return -1;
     }
 
@@ -205,8 +195,7 @@ public class TrabalhoFinal {
 
         if (venceu) {
             System.out.println("Todos os navios foram afundados!");
-        }
-        else {
+        } else {
             System.out.println("Tentativas acabaram. Você perdeu.");
         }
 
@@ -262,11 +251,15 @@ public class TrabalhoFinal {
         System.out.println("Navios afundados: " + naviosAfundados + "/" + naviosId.length);
         System.out.println("Pontuação final: " + pontos);
 
-        if (pontos >= 400) System.out.println("Classificação: Excelente");
-        else if (pontos >= 300) System.out.println("Classificação: Bom");
-        else if (pontos >= 200) System.out.println("Classificação: Regular");
-        else System.out.println("Classificação: Precisa melhorar");
-
+        if (pontos >= 400) {
+            System.out.println("Classificação: Excelente");
+        } else if (pontos >= 300) { 
+            System.out.println("Classificação: Bom");
+        } else if (pontos >= 200) { 
+            System.out.println("Classificação: Regular");
+        } else {
+            System.out.println("Classificação: Precisa melhorar");
+        }
         System.out.println("------------------------------\n");
     }
 
@@ -285,7 +278,13 @@ public class TrabalhoFinal {
     }
 
     private boolean coordenadaValida(int linha, int coluna) {
-        return linha >= 0 && linha < 8 && coluna >= 0 && coluna < 8; // retorna se está dentro do tabuleiro
+        boolean valido = false;
+        if (linha >= 0 && linha < 8) {
+            if (coluna >= 0 && coluna < 8) {
+                valido = true;
+            }
+        }
+        return valido; // retorna se está dentro do tabuleiro
     }
 
     public static void main(String[] args) {
