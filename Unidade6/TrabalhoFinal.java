@@ -8,7 +8,8 @@ public class TrabalhoFinal {
     String matrizNavios[][] = new String[8][8];
     String naviosId[] = {"P", "C1", "C2", "D1", "D2", "D3", "S1", "S2", "S3", "S4"}; // navios com id única
     int tamanhos[] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}; // tamanhos de cada navio
-    int partesRestantes[] = new int[tamanhos.length]; // partes restantes de cada navio
+    int partesRestantes[] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}; // partes restantes de cada navio
+    String naviosAfundadosLista[] = new String[10];
 
     // estatísticas do jogo
     int tentativas = 0;
@@ -75,19 +76,12 @@ public class TrabalhoFinal {
         totalAcertos++;
 
         atualizarPartesRestantes(alvo); // diminui a parte restante do navio
+    
         int id = obterIndexNavio(alvo); // obtém o índice do navio dentro do vetor
-
         if (id != -1 && partesRestantes[id] == 0) { // checa se o id do navio é válido e se todas as partes foram acertadas
             naviosAfundados++;
+            naviosAfundadosLista[id] = alvo;
             System.out.println("\nO navio " + alvo + " foi afundado!\n");
-
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (matrizNavios[i][j].equals("A" + id)) {
-                        matrizNavios[i][j] = "X";
-                    }
-                }
-            }  
         }
     }
 
@@ -103,9 +97,6 @@ public class TrabalhoFinal {
                 matrizNavios[i][j] = "~";
             }
         }
-        for (int i = 0; i < tamanhos.length; i++) {
-            partesRestantes[i] = tamanhos[i]; // inicializa partes restantes com o tamanho do navio
-        }            
     }
 
     private void distribuirNavios() { // distribui os navios aleatoriamente na matriz de navios
@@ -122,7 +113,6 @@ public class TrabalhoFinal {
     private int[] gerarPosicao(int tamanho) { // gera posição aleatória para o navio
         Random r = new Random();
         int direcao = r.nextInt(2);
-
         int linha = 0;
         int coluna = 0;
 
@@ -177,7 +167,7 @@ public class TrabalhoFinal {
         } else { // vertical
             for (int i = linha; i < linha + tamanho; i++) {
                 matrizNavios[i][coluna] = id;
-            }    
+            } 
         }    
     }
 
@@ -205,11 +195,17 @@ public class TrabalhoFinal {
 
     private void revelarNavios() {
         System.out.println("\n--- Revelando posição de todos os navios ---");
-        System.out.println("  0 1 2 3 4 5 6 7");
+        System.out.println("  0   1   2   3   4   5   6   7");
         for (int i = 0; i < 8; i++) {
             System.out.print(i + " ");
             for (int j = 0; j < 8; j++) {
-                System.out.print(matrizNavios[i][j] + " ");
+                if (matrizNavios[i][j].length() == 1) {
+                    System.out.print(matrizNavios[i][j] + "   ");
+                } else if (matrizNavios[i][j].length() > 1) {
+                    System.out.print(matrizNavios[i][j] + "  ");
+                } else {
+                    System.out.print(matrizNavios[i][j] + "");
+                }
             }    
             System.out.println();
         }
@@ -249,8 +245,14 @@ public class TrabalhoFinal {
         System.out.println("Erros: " + erros);
         System.out.printf("Taxa de acerto: %.2f%%\n", percentual);
         System.out.println("Navios afundados: " + naviosAfundados + "/" + naviosId.length);
-        System.out.println("Pontuação final: " + pontos);
+        System.out.println("Lista de navios afundados: ");
+        for (int i = 0; i < naviosAfundadosLista.length; i++) {
+            if (naviosAfundadosLista[i] != null) {
+                System.out.print(naviosAfundadosLista[i] + ", ");
+            }
+        }
 
+        System.out.println("\nPontuação final: " + pontos);
         if (pontos >= 400) {
             System.out.println("Classificação: Excelente");
         } else if (pontos >= 300) { 
