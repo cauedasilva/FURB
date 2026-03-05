@@ -30,7 +30,7 @@ public class ContaBancaria {
             return;
         }
 
-        this.saldo =+ valor;
+        this.saldo += valor;
     }
 
     public void sacar(double valor) {
@@ -40,7 +40,7 @@ public class ContaBancaria {
             return;
         }
 
-        this.saldo =- valor;
+        this.saldo -= valor;
     }
 
     public void transferir(ContaBancaria contaDestino, double valor) {
