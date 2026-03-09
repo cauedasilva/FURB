@@ -9,7 +9,7 @@ public class ContaBancaria {
         if (numero == null || numero.isEmpty() || numero.isBlank()) {
             throw new IllegalArgumentException("Número inválido");
         }
-        this.numero = numero;
+        this.numero = numero.trim();
     }
 
     public String getNumero() {
@@ -20,7 +20,7 @@ public class ContaBancaria {
         if (titular == null || titular.isEmpty() || titular.isBlank()) {
             throw new IllegalArgumentException("Titular inválido");
         }
-        this.titular = titular;
+        this.titular = titular.trim();
     }
 
     public String getTitular() {
