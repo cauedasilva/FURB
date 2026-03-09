@@ -6,6 +6,9 @@ public class ContaBancaria {
     private double saldo;
 
     public void setNumero(String numero) {
+        if (numero == null || numero.isEmpty() || numero.isBlank()) {
+            throw new IllegalArgumentException("Número inválido");
+        }
         this.numero = numero;
     }
 
@@ -14,6 +17,9 @@ public class ContaBancaria {
     }
 
     public void setTitular(String titular) {
+        if (titular == null || titular.isEmpty() || titular.isBlank()) {
+            throw new IllegalArgumentException("Titular inválido");
+        }
         this.titular = titular;
     }
 
@@ -48,3 +54,4 @@ public class ContaBancaria {
         contaDestino.depositar(valor);
     }
 }
+
