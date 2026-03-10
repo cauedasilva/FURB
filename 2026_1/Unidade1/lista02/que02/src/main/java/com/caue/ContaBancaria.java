@@ -5,6 +5,11 @@ public class ContaBancaria {
     private String titular;
     private double saldo;
 
+    public ContaBancaria(String titular, String numero) {
+        setTitular(titular);
+        setNumero(numero);
+    }
+
     public void setNumero(String numero) {
         if (numero == null || numero.isEmpty() || numero.isBlank()) {
             throw new IllegalArgumentException("Número inválido");
