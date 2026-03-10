@@ -9,6 +9,7 @@ public class ContaBancaria {
         if (numero == null || numero.isEmpty() || numero.isBlank()) {
             throw new IllegalArgumentException("Número inválido");
         }
+
         this.numero = numero.trim();
     }
 
@@ -20,6 +21,7 @@ public class ContaBancaria {
         if (titular == null || titular.isEmpty() || titular.isBlank()) {
             throw new IllegalArgumentException("Titular inválido");
         }
+
         this.titular = titular.trim();
     }
 
@@ -33,24 +35,22 @@ public class ContaBancaria {
 
     public void depositar(double valor) {
         if (valor <= 0) {
-            return;
+            throw new IllegalArgumentException("Valor inválido");
         }
 
         this.saldo += valor;
     }
 
     public void sacar(double valor) {
-        if (valor <= 0) {
-            return;
-        } else if (this.saldo - valor < 0) {
-            return;
+        if (valor <= 0 || this.saldo - valor < 0) {
+            throw new IllegalArgumentException("Valor inválido");
         }
 
         this.saldo -= valor;
     }
 
     public void transferir(ContaBancaria contaDestino, double valor) {
-        sacar(valor);
+        this.sacar(valor);
         contaDestino.depositar(valor);
     }
 }
