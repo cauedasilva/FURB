@@ -53,10 +53,14 @@ public class ContaBancaria {
 
         this.saldo -= valor;
     }
-
+    
     public void transferir(ContaBancaria contaDestino, double valor) {
-        this.sacar(valor);
+        sacar(valor);
         contaDestino.depositar(valor);
-    }
+    } // pertence a uma instância da classe, a um objeto específico; performa a ação a partir de uma instância já declarada
+    
+    public static void transferir(ContaBancaria origem, ContaBancaria destino, double valor) {
+        origem.transferir(destino, valor);
+    } // pertence a classe, o método é chamado a partir da classe, e não de uma instância específica; não sabe automaticamente qual são os objetos usados no parâmetro
 }
 
