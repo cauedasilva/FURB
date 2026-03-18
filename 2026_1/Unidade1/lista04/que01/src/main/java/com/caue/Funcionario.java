@@ -59,7 +59,7 @@ public class Funcionario {
         }
 
         for (int i = 0; i < imposto.length; i++) {
-            if (i == 4) {
+            if (i == imposto.length - 1) {
                 valorTaxavel = salarioTemp - limiteAnterior;
                 valorImposto += (valorTaxavel * imposto[i]) / 100;
                 return valorImposto;
