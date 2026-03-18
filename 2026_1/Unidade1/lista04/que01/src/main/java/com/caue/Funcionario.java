@@ -26,7 +26,7 @@ public class Funcionario {
     }
 
     public void setNome(String nome) {
-        if (nome == null || nome.isBlank() || nome.isEmpty()) {
+        if (nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome inválido");
         }
         this.nome = nome;
