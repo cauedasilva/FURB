@@ -22,4 +22,9 @@ public class Bairro {
         }
         this.coeficienteIptu = coeficienteIptu;
     }
+
+    public Bairro(String nome, double coeficienteIptu) {
+        setNome(nome);
+        setCoeficienteIptu(coeficienteIptu);
+    }
 }

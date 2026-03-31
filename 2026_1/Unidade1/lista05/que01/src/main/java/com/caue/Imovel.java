@@ -6,11 +6,21 @@ public class Imovel {
     private Bairro bairro;
     private Finalidade finalidade;
 
+    /**
+     * @param endereco  
+     * @param area
+     * @param bairro
+     * @param finalidade
+     */
+
     public Finalidade getFinalidade() {
         return finalidade;
     }
 
     public void setFinalidade(Finalidade finalidade) {
+        if (finalidade == null) {
+            throw new IllegalArgumentException("Finalidade inválida");
+        }
         this.finalidade = finalidade;
     }
 
@@ -19,6 +29,9 @@ public class Imovel {
     }
 
     public void setBairro(Bairro bairro) {
+        if (bairro == null) {
+            throw new IllegalArgumentException("Bairro inválido");
+        }
         this.bairro = bairro;
     }
 
@@ -43,14 +56,18 @@ public class Imovel {
 
     }
 
+    public Imovel(int area, String endereco) {
+        setArea(area);
+        setEndereco(endereco);
+    }
+
     public double calcularIptu() {
         double area = getArea();
-        Bairro bairro = getBairro();
         double coeficienteIptu = bairro.getCoeficienteIptu();
     
         switch (getFinalidade()) {
             case RESIDENCIAL:
-                return area * 1;
+                return area * coeficienteIptu;
             case COMERCIAL:
                 if (area <= 100) {
                     return 500 * coeficienteIptu;
@@ -69,5 +86,9 @@ public class Imovel {
                 throw new IllegalArgumentException("É necessário existir uma finalidade para o imóvel");
         }
     }
+
+    /**
+     * @return Retorna o valor do IPTU
+     */
     
 }
