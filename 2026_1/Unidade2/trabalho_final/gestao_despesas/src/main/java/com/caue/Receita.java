@@ -8,13 +8,19 @@ public class Receita extends Lancamento {
 
     public Receita(String descricao, double valor, LocalDate data, CategoriaReceita categoriaReceita) {
         super(descricao, valor, data);
+        setCategoriaReceita(categoriaReceita);
     }
 
     public CategoriaReceita getCategoriaReceita() {
-        return null;
+        return this.categoriaReceita;
     }
 
     public void setCategoriaReceita(CategoriaReceita categoriaReceita) {
+        if (categoriaReceita == null) {
+            throw new IllegalArgumentException("");
+        }
+
+        this.categoriaReceita = categoriaReceita;
     }
 
     @Override
