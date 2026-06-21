@@ -6,21 +6,26 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class JanelaDespesa extends JDialog {
-
     private JTextField txtDescricao;
     private JTextField txtValor;
     private JTextField txtData;
     private JComboBox<CategoriaDespesa> cmbCategoria;
     private JButton btnSalvar;
     private JButton btnCancelar;
-
     private Despesa despesaCriada;
 
+    /**
+     * Método constructor da classe JanelaDespesa
+     * @param parent modal que o Java Swing usa como referencia para posicionar a janela de diálogo em relação
+     */
     public JanelaDespesa(JFrame parent) {
         super(parent, "Nova Despesa", true);
         carregarDados();
     }
 
+    /**
+     * Método carregarDados carrega todos os dados do modal/janela dialog, não os dados do csv
+     */
     private void carregarDados() {
         setLayout(new GridLayout(5, 2, 8, 8));
 
@@ -49,9 +54,9 @@ public class JanelaDespesa extends JDialog {
         setLocationRelativeTo(getParent());
     }
 
-    // -------------------------------------------------------------------------
-    // Ações
-    // -------------------------------------------------------------------------
+    /**
+     * Método salvar salva os dados inseridos nos campos a janela em um objeto da classe Despesa
+     */
     private void salvar() {
         if (!validarCampos()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos", "Dados inválidos", JOptionPane.WARNING_MESSAGE);
@@ -67,6 +72,10 @@ public class JanelaDespesa extends JDialog {
         dispose();
     }
 
+    /**
+     * Método validarCampos valida se todos os campos da janela estão preenchidos corretamente
+     * @return boolean caso estão preenchidos corretamente ou não
+     */
     private boolean validarCampos() {
         if (txtDescricao.getText().trim().isEmpty()) {
             return false;
@@ -84,6 +93,10 @@ public class JanelaDespesa extends JDialog {
         return true;
     }
 
+    /**
+     * Método getter do atributo despesaCriada
+     * @return objeto criado a partir do modal
+     */
     public Despesa getDespesaCriada() {
         return despesaCriada;
     }

@@ -1,3 +1,4 @@
 tipo;descricao;valor;data;categoria
 RECEITA;teste;120.0;2026-06-21;SALARIO
 DESPESA;teste;300.0;2026-06-21;ALIMENTACAO
+DESPESA;teste;800.0;2026-06-21;EDUCACAO

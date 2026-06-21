@@ -5,9 +5,8 @@ import java.awt.*;
 import java.util.List;
 
 public class TelaPrincipal extends JFrame {
-
     private ControleFinanceiro controleFinanceiro;
-    private LancamentoRepositorio repositorio;
+    private LancamentoCsv repositorio;
 
     private JTable tabelaLancamentos;
     private LancamentoTableModel tableModel;
@@ -18,27 +17,31 @@ public class TelaPrincipal extends JFrame {
     private JButton btnRemover;
     private JButton btnExtrato;
 
-    public TelaPrincipal(LancamentoRepositorio repositorio) {
+    /**
+     * Método constructor da classe TelaPrincipal   
+     * @param repositorio objeto da classe LancamentoCsv a ser exibido na interface
+     */
+    public TelaPrincipal(LancamentoCsv repositorio) {
         super("Controle Financeiro");
         this.repositorio = repositorio;
         this.controleFinanceiro = new ControleFinanceiro();
 
-        initComponents();
+        iniciarInterface();
         montarLayout();
         configurarEventos();
-        carregarDadosIniciais(); // <-- requisito: resgatar dados do CSV ao iniciar
+        carregarDadosIniciais();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(750, 450);
+        setSize(800, 450);
         setLocationRelativeTo(null);
     }
 
-    // -------------------------------------------------------------------------
-    // Inicialização da interface
-    // -------------------------------------------------------------------------
-    private void initComponents() {
-        tableModel        = new LancamentoTableModel(controleFinanceiro.listarLancamentos());
-        tabelaLancamentos  = new JTable(tableModel);
+    /**
+     * Método iniciarInterface carrega todos os componentes da JTable
+     */
+    private void iniciarInterface() {
+        tableModel = new LancamentoTableModel(controleFinanceiro.listarLancamentos());
+        tabelaLancamentos = new JTable(tableModel);
 
         lblSaldoAtual = new JLabel("Saldo Atual: R$ 0,00");
         lblSaldoTotal = new JLabel("Saldo Total: R$ 0,00");
@@ -49,6 +52,9 @@ public class TelaPrincipal extends JFrame {
         btnExtrato = new JButton("Ver Extrato");
     }
 
+    /**
+     * Método montarLayout carrega o layout/ui da interface
+     */
     private void montarLayout() {
         setLayout(new BorderLayout(10, 10));
 
@@ -67,6 +73,9 @@ public class TelaPrincipal extends JFrame {
         add(painelSaldos, BorderLayout.SOUTH);
     }
 
+    /**
+     * Método configurarEventos define os eventos de cada botão disponível na interface
+     */
     private void configurarEventos() {
         btnAdicionarReceita.addActionListener(e -> abrirDialogReceita());
         btnAdicionarDespesa.addActionListener(e -> abrirDialogDespesa());
@@ -74,9 +83,9 @@ public class TelaPrincipal extends JFrame {
         btnExtrato.addActionListener(e -> exibirExtrato());
     }
 
-    // -------------------------------------------------------------------------
-    // Carregamento e persistência de dados (CSV)
-    // -------------------------------------------------------------------------
+    /**
+     * Método carregarDadosIniciais carrega todos os dados salvos no csv e exibe na interface
+     */
     private void carregarDadosIniciais() {
         List<Lancamento> salvos = repositorio.carregarTodos();
 
@@ -92,13 +101,16 @@ public class TelaPrincipal extends JFrame {
         atualizarLabelsSaldo();
     }
 
+    /**
+     * Método salvarDados salva os dados da interface no csv
+     */
     private void salvarDados() {
         repositorio.salvarTodos(controleFinanceiro.listarLancamentos());
     }
 
-    // -------------------------------------------------------------------------
-    // Ações da interface
-    // -------------------------------------------------------------------------
+    /**
+     * Método abrirDialogReceita abre a JanelaReceita 
+     */
     private void abrirDialogReceita() {
         JanelaReceita dialog = new JanelaReceita(this);
         dialog.setVisible(true);
@@ -112,6 +124,9 @@ public class TelaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Método abrirDialogDespesa abre a JanelaDespesa
+     */
     private void abrirDialogDespesa() {
         JanelaDespesa dialog = new JanelaDespesa(this);
         dialog.setVisible(true);
@@ -125,6 +140,9 @@ public class TelaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Método removerLancamentosSelecionado faz a exclusão do lancamento selecionado na interface do array lancamentos
+     */
     private void removerLancamentoSelecionado() {
         int linha = tabelaLancamentos.getSelectedRow();
         if (linha == -1) {
@@ -140,6 +158,9 @@ public class TelaPrincipal extends JFrame {
         atualizarLabelsSaldo();
     }
 
+    /**
+     * Método exibirExtrato exibe o extrato ordenado por data em uma nova janela
+     */
     private void exibirExtrato() {
         List<ExtratoItem> extrato = controleFinanceiro.obterExtratoOrdenado();
         StringBuilder texto = new StringBuilder();
@@ -158,19 +179,20 @@ public class TelaPrincipal extends JFrame {
         JTextArea area = new JTextArea(texto.toString(), 15, 40);
         area.setEditable(false);
 
-        JOptionPane.showMessageDialog(this, new JScrollPane(area),
-                "Extrato", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(this, new JScrollPane(area), "Extrato", JOptionPane.PLAIN_MESSAGE);
     }
 
-    // -------------------------------------------------------------------------
-    // Atualização visual
-    // -------------------------------------------------------------------------
+    /**
+     * Método atualizarTabela atualiza a interface através do array de lancamentos
+     */
     private void atualizarTabela() {
         tableModel.atualizarDados(controleFinanceiro.listarLancamentos());
     }
 
+    /**
+     * Método atualiarLabelsSaldo atualiza o campo de saldo
+     */
     private void atualizarLabelsSaldo() {
         lblSaldoAtual.setText(String.format("Saldo Atual: R$ %.2f", controleFinanceiro.consultarSaldoAtual()));
-        lblSaldoTotal.setText(String.format("Saldo Total: R$ %.2f", controleFinanceiro.consultarSaldoTotal()));
     }
 }

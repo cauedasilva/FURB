@@ -6,22 +6,27 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class JanelaReceita extends JDialog {
-
     private JTextField txtDescricao;
     private JTextField txtValor;
     private JTextField txtData;
     private JComboBox<CategoriaReceita> cmbCategoria;
     private JButton btnSalvar;
     private JButton btnCancelar;
-
     private Receita receitaCriada;
 
+    /**
+     * Método constructor da classe JanelaReceita
+     * @param parent modal que o Java Swing usa como referencia para posicionar a janela de diálogo em relação
+     */
     public JanelaReceita(JFrame parent) {
         super(parent, "Nova Receita", true);
-        initComponents();
+        carregarDados();
     }
 
-    private void initComponents() {
+    /**
+     * Método carregarDados carrega todos os dados do modal/janela dialog, não os dados do csv
+     */
+    private void carregarDados() {
         setLayout(new GridLayout(5, 2, 8, 8));
 
         txtDescricao = new JTextField();
@@ -49,9 +54,9 @@ public class JanelaReceita extends JDialog {
         setLocationRelativeTo(getParent());
     }
 
-    // -------------------------------------------------------------------------
-    // Ações
-    // -------------------------------------------------------------------------
+    /**
+     * Método salvar salva os dados inseridos nos campos a janela em um objeto da classe Receita
+     */
     private void salvar() {
         if (!validarCampos()) {
             JOptionPane.showMessageDialog(this,
@@ -69,6 +74,10 @@ public class JanelaReceita extends JDialog {
         dispose();
     }
 
+    /**
+     * Método validarCampos valida se todos os campos da janela estão preenchidos corretamente
+     * @return boolean caso estão preenchidos corretamente ou não
+     */
     private boolean validarCampos() {
         if (txtDescricao.getText().trim().isEmpty()) {
             return false;
@@ -86,6 +95,10 @@ public class JanelaReceita extends JDialog {
         return true;
     }
 
+    /**
+     * Método getter do atributo receitaCriada
+     * @return objeto criado a partir do modal
+     */
     public Receita getReceitaCriada() {
         return receitaCriada;
     }

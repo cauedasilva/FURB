@@ -10,31 +10,26 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-// Esta classe é o "banco de dados" do sistema, conforme pedido no enunciado:
-// os objetos Receita/Despesa (que herdam de Lancamento) são convertidos em
-// linhas de texto e gravados em um arquivo .csv, e o caminho inverso é feito
-// ao iniciar o programa para reconstruir os objetos a partir do arquivo.
-public class LancamentoCsvRepositorio implements LancamentoRepositorio {
-
+public class LancamentoCsv {
     private static String SEPARADOR = ";";
     private static String CABECALHO = "tipo;descricao;valor;data;categoria";
     private static String TIPO_RECEITA = "RECEITA";
     private static String TIPO_DESPESA = "DESPESA";
-
     private String caminhoArquivo;
 
-    // -------------------------------------------------------------------------
-    // Construtor
-    // -------------------------------------------------------------------------
-    public LancamentoCsvRepositorio(String caminhoArquivo) {
+    /**
+     * Método constructor da classe LancamentoCsv
+     * @param caminhoArquivo caminho do arquivo csv no sistema
+     */
+    public LancamentoCsv(String caminhoArquivo) {
         this.caminhoArquivo = caminhoArquivo;
         criarArquivoSeNaoExistir();
     }
 
-    // -------------------------------------------------------------------------
-    // Métodos da interface LancamentoRepository
-    // -------------------------------------------------------------------------
-    @Override
+    /**
+     * Método carregarTodos carrega todos os dados já armazenados no arquivo csv, converte para objeto lancamento e adiciona a uma array de lancamentos
+     * @return ArrayList de lancamentos convertidos em objeto a partir do csv
+     */
     public ArrayList<Lancamento> carregarTodos() {
         ArrayList<Lancamento> lancamentos = new ArrayList<>();
         Path path = Paths.get(caminhoArquivo);
@@ -55,7 +50,10 @@ public class LancamentoCsvRepositorio implements LancamentoRepositorio {
         return lancamentos;
     }
 
-    @Override
+    /**
+     * Método salvarTodos salva todos os objetos do array lancamentos em csv, é feito a conversão de objeto para texto antes de salvar
+     * @param lancamentos arrayList lancamentos a ser salvo
+     */
     public void salvarTodos(ArrayList<Lancamento> lancamentos) {
         try (FileWriter escritor = new FileWriter(caminhoArquivo, StandardCharsets.UTF_8)) {
             escritor.write(CABECALHO + System.lineSeparator());
@@ -70,9 +68,11 @@ public class LancamentoCsvRepositorio implements LancamentoRepositorio {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Conversão linha CSV -> objeto de domínio
-    // -------------------------------------------------------------------------
+    /**
+     * Método converterLinhaParaLancamento converte linha de texto no csv para atributos de um objeto da classe Lancamento
+     * @param linha linha a ser lida do arquivo csv
+     * @return objeto lancamento para ser adicionado na array
+     */
     private Lancamento converterLinhaParaLancamento(String linha) {
         String[] campos = linha.split(SEPARADOR);
         if (campos.length < 5) {
@@ -89,6 +89,11 @@ public class LancamentoCsvRepositorio implements LancamentoRepositorio {
         return null;
     }
 
+    /**
+     * Método converterLinhaParaReceita usado no método converterLinhaParaLancamento, define se linha é Receita e retorna objeto correto para ser adicionado no array
+     * @param campos da linha do csv
+     * @return objeto Receita
+     */
     private Receita converterLinhaParaReceita(String[] campos) {
         String descricao = campos[1];
         double valor = Double.parseDouble(campos[2]);
@@ -97,6 +102,11 @@ public class LancamentoCsvRepositorio implements LancamentoRepositorio {
         return new Receita(descricao, valor, data, categoria);
     }
 
+    /**
+     * Método converterLinhaParaDespesa usado no método converterLinhaParaLancamento, define se linha é Despesa e retorna objeto correto para ser adicionado no array
+     * @param campos da linha do csv
+     * @return objeto Despesa
+     */
     private Despesa converterLinhaParaDespesa(String[] campos) {
         String descricao = campos[1];
         double valor = Double.parseDouble(campos[2]);
@@ -105,9 +115,11 @@ public class LancamentoCsvRepositorio implements LancamentoRepositorio {
         return new Despesa(descricao, valor, data, categoria);
     }
 
-    // -------------------------------------------------------------------------
-    // Conversão objeto de domínio -> linha CSV
-    // -------------------------------------------------------------------------
+    /**
+     * Método converterLancamentoParaLinha converte atributos de um objeto da classe Lancamento para linha de texto no csv 
+     * @param lancamento objeto a ser convertido
+     * @return String para ser adicionado no csv
+     */
     private String converterLancamentoParaLinha(Lancamento lancamento) {
         if (lancamento instanceof Receita) {
             Receita receita = (Receita) lancamento;
@@ -129,9 +141,9 @@ public class LancamentoCsvRepositorio implements LancamentoRepositorio {
         return null;
     }
 
-    // -------------------------------------------------------------------------
-    // Garante que o arquivo "banco de dados" exista antes da primeira leitura
-    // -------------------------------------------------------------------------
+    /**
+     * Método criarArquivoSeNaoExistir cria arquivo csv caso não existir antes de inicialização do app
+     */
     private void criarArquivoSeNaoExistir() {
         Path path = Paths.get(caminhoArquivo);
         if (!Files.exists(path)) {

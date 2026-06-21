@@ -2,32 +2,44 @@ package com.caue;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.List;
 
-// Faz a "ponte" entre a lista de objetos Lancamento (modelo de domínio)
-// e a JTable do Swing, que só entende linhas/colunas de texto.
 public class LancamentoTableModel extends AbstractTableModel {
+    private ArrayList<Lancamento> lancamentos;
+    private String[] colunas = {"Tipo", "Descrição", "Valor", "Data", "Categoria"};
 
-    private List<Lancamento> lancamentos;
-    private final String[] colunas = {"Tipo", "Descrição", "Valor", "Data", "Categoria"};
-
-    public LancamentoTableModel(List<Lancamento> lancamentos) {
+    /**
+     * Método constructor da classe LancamentoTableModel 
+     * @param lancamentos array lancamentos a ser adicionado
+     */
+    public LancamentoTableModel(ArrayList<Lancamento> lancamentos) {
         this.lancamentos = new ArrayList<>(lancamentos);
     }
 
-    // -------------------------------------------------------------------------
-    // Métodos obrigatórios de AbstractTableModel
-    // -------------------------------------------------------------------------
+    /**
+     * Método obrigatório da classe AbstractTableModel
+     * @return tamanho do array lancamentos
+     */
     @Override
     public int getRowCount() {
         return lancamentos.size();
     }
 
+    /**
+     * Método obrigatório da classe AbstractTableModel
+     * @return número de colunas definidas
+     */
     @Override
     public int getColumnCount() {
         return colunas.length;
     }
 
+    /**
+    * Método obrigatório da classe AbstractTableModel
+    * Retorna o valor a ser exibido na célula da tabela a partir da linha (lançamento) e a coluna (atributo)
+    * @param rowIndex índice da linha relativo à posição do lançamento na lista
+    * @param columnIndex índice da coluna a ser exibida
+    * @return o valor da célula como objeto ou nulo se a coluna não existir
+    */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Lancamento l = lancamentos.get(rowIndex);
@@ -53,19 +65,20 @@ public class LancamentoTableModel extends AbstractTableModel {
         }
     }
 
-    @Override
-    public String getColumnName(int column) {
-        return colunas[column];
-    }
-
-    // -------------------------------------------------------------------------
-    // Auxiliares
-    // -------------------------------------------------------------------------
-    public void atualizarDados(List<Lancamento> novosLancamentos) {
+    /**
+     * Método atualizarDados atualiza os novos lancamentos adicionados pela interface
+     * @param novosLancamentos array atualizado de lancamentos
+     */
+    public void atualizarDados(ArrayList<Lancamento> novosLancamentos) {
         this.lancamentos = new ArrayList<>(novosLancamentos);
         fireTableDataChanged();
     }
 
+    /**
+     * Método getLancamentoNaLinha busca o lançamento na linha selecionada
+     * @param rowIndex número da linha
+     * @return objeto lancamento selecionado na linha
+     */
     public Lancamento getLancamentoNaLinha(int rowIndex) {
         return lancamentos.get(rowIndex);
     }

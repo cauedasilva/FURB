@@ -2,67 +2,76 @@ package com.caue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class ControleFinanceiro extends Lancamento {
-
     private ArrayList<Lancamento> lancamentos;
 
+    /**
+     * Método constructor da classe ControleFinanceiro
+     * @param descricao descrição a ser adicionada
+     * @param valor valor a ser adicionado
+     * @param data data a ser adicionada
+     */
     public ControleFinanceiro(String descricao, double valor, LocalDate data) {
         super(descricao, valor, data);
         this.lancamentos = new ArrayList<>();
     }
 
-    // Construtor de conveniência: na prática, ControleFinanceiro é usado
-    // como um "gerenciador" e não como um lançamento individual.
+    /**
+     * Método constructor com valores padrões para não precisar popular os dados sempre
+     */
     public ControleFinanceiro() {
-        this("Controle Financeiro Geral", 0.0, LocalDate.now());
+        this("Controle Financeiro", 0.0, LocalDate.now());
     }
 
+    /**
+     * Método adicionarReceita adiciona uma receita ao Array de lançamentos
+     * @param receita receita a ser adicionada
+     */
     public void adicionarReceita(Receita receita) {
         lancamentos.add(receita);
     }
 
+    /**
+     * Método adicionarDespesa adiciona uma despesa ao Array de lançamentos
+     * @param despesa despesa a ser adicionada
+     */
     public void adicionarDespesa(Despesa despesa) {
         lancamentos.add(despesa);
     }
 
-    // Método auxiliar fora do diagrama original, necessário para a GUI remover itens
+    /**
+     * Método removerLancamento remove um lançamento da array de lançamentos
+     * @param lancamento lançamento a ser removido
+     */
     public void removerLancamento(Lancamento lancamento) {
         lancamentos.remove(lancamento);
     }
 
-    // -------------------------------------------------------------------------
-    // Consultas
-    // -------------------------------------------------------------------------
-    public ArrayList<Receita> listarReceitas() {
-        ArrayList<Receita> receitas = new ArrayList<>();
-        for (Lancamento l : lancamentos) {
-            if (l instanceof Receita) {
-                receitas.add((Receita) l);
-            }
-        }
-        return receitas;
-    }
-
-    public ArrayList<Despesa> listarDespesas() {
-        ArrayList<Despesa> despesas = new ArrayList<>();
-        for (Lancamento l : lancamentos) {
-            if (l instanceof Despesa) {
-                despesas.add((Despesa) l);
-            }
-        }
-        return despesas;
-    }
-
+    /**
+     * Método listarLancamentos retorna todos os lançamentos 
+     * @return todos os lançamentos por uma array
+     */
     public ArrayList<Lancamento> listarLancamentos() {
         return new ArrayList<>(lancamentos);
     }
 
-    // Extrato ordenado por data, com saldo acumulado linha a linha
+    /**
+     * Método obterExtratoOrdenado ordena todos os lançamentos em uma nova array por data de adição, e com o cálculo do saldo
+     * @return array de extrato ordenado
+     */
     public ArrayList<ExtratoItem> obterExtratoOrdenado() {
         ArrayList<Lancamento> ordenados = new ArrayList<>(lancamentos);
-        ordenados.sort(Comparator.comparing(Lancamento::getData));
+
+        for (int i = 0; i < ordenados.size() - 1; i++) {
+            for (int j = 0; j < ordenados.size() - 1 - i; j++) {
+                if (ordenados.get(j).getData().compareTo(ordenados.get(j + 1).getData()) > 0) {
+                    Lancamento temp = ordenados.get(j);
+                    ordenados.set(j, ordenados.get(j + 1));
+                    ordenados.set(j + 1, temp);
+                }
+            }
+        }
 
         ArrayList<ExtratoItem> extrato = new ArrayList<>();
         double saldoAcumulado = 0.0;
@@ -74,7 +83,10 @@ public class ControleFinanceiro extends Lancamento {
         return extrato;
     }
 
-    // Saldo considerando apenas lançamentos já ocorridos (data <= hoje)
+    /**
+     * Método consultarSaldoAtual consulta o saldo considerando todos os lançamentos antes da data atual
+     * @return double saldo do cálculo do saldo 
+     */
     public double consultarSaldoAtual() {
         LocalDate hoje = LocalDate.now();
         double saldo = 0.0;
@@ -86,7 +98,10 @@ public class ControleFinanceiro extends Lancamento {
         return saldo;
     }
 
-    // Saldo considerando TODOS os lançamentos cadastrados, mesmo futuros
+    /**
+     * Método consultarSaldoTotal consulta o saldo considerando todos os lançamentos, mesmo futuros
+     * @return double do cálculo do saldo
+     */
     public double consultarSaldoTotal() {
         double saldo = 0.0;
         for (Lancamento l : lancamentos) {
@@ -95,17 +110,11 @@ public class ControleFinanceiro extends Lancamento {
         return saldo;
     }
 
-    // -------------------------------------------------------------------------
-    // Implementação do método abstrato herdado de Lancamento
-    // -------------------------------------------------------------------------
-    @Override
-    public double diferencaSaldo() {
-        return consultarSaldoTotal();
-    }
-
-    // -------------------------------------------------------------------------
-    // Auxiliar interno
-    // -------------------------------------------------------------------------
+    /**
+     * Método calcularImpacto define se o lancamento é uma despesa ou receita e retorna o impacto no saldo considerandos as diferenças no cálculo   
+     * @param l lancamento a ser avaliado   
+     * @return double do impacto que o lancamento terá no saldo
+     */
     private double calcularImpacto(Lancamento l) {
         if (l instanceof Receita) {
             return ((Receita) l).impactoSaldo();

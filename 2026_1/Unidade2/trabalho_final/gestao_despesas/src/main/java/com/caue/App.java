@@ -7,7 +7,7 @@ public class App {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            LancamentoRepositorio repositorio = new LancamentoCsvRepositorio(ARQUIVO_CSV);
+            LancamentoCsv repositorio = new LancamentoCsv(ARQUIVO_CSV);
             TelaPrincipal tela = new TelaPrincipal(repositorio);
             tela.setVisible(true);
         });

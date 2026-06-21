@@ -1,5 +1,8 @@
 package com.caue;
 
+/**
+ * Classe enum com tipos de despesas selecionáveis
+ */
 public enum CategoriaDespesa {
     ALIMENTACAO,
     TRANSPORTE,
