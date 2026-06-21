@@ -7,5 +7,5 @@ public enum CategoriaDespesa {
     SAUDE,
     EDUCACAO,
     ENTRETENIMENTO,
-    OUTRAS_DESPESAS 
+    OUTRAS_DESPESAS
 }

@@ -1,48 +1,123 @@
 package com.caue;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 
 public class ControleFinanceiro extends Lancamento {
-
-    private List<Lancamento> lancamentos;
+    private ArrayList<Lancamento> lancamentos;
 
     public ControleFinanceiro(String descricao, double valor, LocalDate data) {
         super(descricao, valor, data);
+        this.lancamentos = new ArrayList<>();
+    }
+
+    // Construtor de conveniência: na prática, ControleFinanceiro é usado
+    // como um "gerenciador" e não como um lançamento individual.
+    public ControleFinanceiro() {
+        this("Controle Financeiro Geral", 0.0, LocalDate.now());
     }
 
     public void adicionarReceita(Receita receita) {
+        lancamentos.add(receita);
     }
 
     public void adicionarDespesa(Despesa despesa) {
+        lancamentos.add(despesa);
     }
 
-    public List<Receita> listarReceitas() {
-        return null;
+    // Método auxiliar fora do diagrama original, necessário para a GUI remover itens
+    public void removerLancamento(Lancamento lancamento) {
+        lancamentos.remove(lancamento);
     }
 
-    public List<Despesa> listarDespesas() {
-        return null;
+    // -------------------------------------------------------------------------
+    // Consultas
+    // -------------------------------------------------------------------------
+    public ArrayList<Receita> listarReceitas() {
+        ArrayList<Receita> receitas = new ArrayList<>();
+        for (Lancamento l : lancamentos) {
+            if (l instanceof Receita) {
+                receitas.add((Receita) l);
+            }
+        }
+        return receitas;
     }
 
-    public List<Lancamento> listarLancamentos() {
-        return null;
+    public ArrayList<Despesa> listarDespesas() {
+        ArrayList<Despesa> despesas = new ArrayList<>();
+        for (Lancamento l : lancamentos) {
+            if (l instanceof Despesa) {
+                despesas.add((Despesa) l);
+            }
+        }
+        return despesas;
     }
 
-    public List<ExtratoItem> obterExtratoOrdenado() {
-        return null;
+    public ArrayList<Lancamento> listarLancamentos() {
+        return new ArrayList<>(lancamentos);
     }
 
+    // Extrato ordenado por data, com saldo acumulado linha a linha
+    public ArrayList<ExtratoItem> obterExtratoOrdenado() {
+        ArrayList<Lancamento> ordenados = new ArrayList<>(lancamentos);
+        for (int i = 0; i < ordenados.size() - 1; i++) {
+            for (int j = 0; j < ordenados.size() - 1 - i; j++) {
+                if (ordenados.get(j).getData().compareTo(ordenados.get(j + 1).getData()) > 0) {
+                    Lancamento temp = ordenados.get(j);
+                    ordenados.set(j, ordenados.get(j + 1));
+                    ordenados.set(j + 1, temp);
+                }
+            }
+        }
+
+        ArrayList<ExtratoItem> extrato = new ArrayList<>();
+        double saldoAcumulado = 0.0;
+
+        for (Lancamento l : ordenados) {
+            saldoAcumulado += calcularImpacto(l);
+            extrato.add(new ExtratoItem(l.getData(), l.getDescricao(), l.getValor(), saldoAcumulado));
+        }
+        return extrato;
+    }
+
+    // Saldo considerando apenas lançamentos já ocorridos (data <= hoje)
     public double consultarSaldoAtual() {
-        return 0;
+        LocalDate hoje = LocalDate.now();
+        double saldo = 0.0;
+        for (Lancamento l : lancamentos) {
+            if (!l.getData().isAfter(hoje)) {
+                saldo += calcularImpacto(l);
+            }
+        }
+        return saldo;
     }
 
+    // Saldo considerando TODOS os lançamentos cadastrados, mesmo futuros
     public double consultarSaldoTotal() {
-        return 0;
+        double saldo = 0.0;
+        for (Lancamento l : lancamentos) {
+            saldo += calcularImpacto(l);
+        }
+        return saldo;
     }
 
+    // -------------------------------------------------------------------------
+    // Implementação do método abstrato herdado de Lancamento
+    // -------------------------------------------------------------------------
     @Override
     public double diferencaSaldo() {
-        return 0;
+        return consultarSaldoTotal();
+    }
+
+    // -------------------------------------------------------------------------
+    // Auxiliar interno
+    // -------------------------------------------------------------------------
+    private double calcularImpacto(Lancamento l) {
+        if (l instanceof Receita) {
+            return ((Receita) l).impactoSaldo();
+        } else if (l instanceof Despesa) {
+            return ((Despesa) l).impactoSaldo();
+        }
+        return 0.0;
     }
 }

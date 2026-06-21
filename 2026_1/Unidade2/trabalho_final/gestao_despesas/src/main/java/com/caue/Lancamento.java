@@ -9,28 +9,37 @@ public abstract class Lancamento {
     private LocalDate data;
 
     public Lancamento(String descricao, double valor, LocalDate data) {
+        this.descricao = descricao;
+        this.valor = valor;
+        this.data = data;
     }
 
     public String getDescricao() {
-        return null;
+        return descricao;
     }
 
     public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public double getValor() {
-        return 0;
+        return valor;
     }
 
     public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public LocalDate getData() {
-        return null;
+        return data;
     }
 
     public void setData(LocalDate data) {
+        this.data = data;
     }
 
+    // -------------------------------------------------------------------------
+    // Método abstrato — cada subclasse define como impacta o saldo
+    // -------------------------------------------------------------------------
     public abstract double diferencaSaldo();
 }
