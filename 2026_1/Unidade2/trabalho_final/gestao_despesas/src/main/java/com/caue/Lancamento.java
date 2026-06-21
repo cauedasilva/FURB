@@ -9,9 +9,9 @@ public abstract class Lancamento {
     private LocalDate data;
 
     public Lancamento(String descricao, double valor, LocalDate data) {
-        this.descricao = descricao;
-        this.valor = valor;
-        this.data = data;
+        setDescricao(descricao);
+        setValor(valor);
+        setData(data);
     }
 
     public String getDescricao() {

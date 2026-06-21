@@ -2,8 +2,10 @@ package com.caue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ControleFinanceiro extends Lancamento {
+
     private ArrayList<Lancamento> lancamentos;
 
     public ControleFinanceiro(String descricao, double valor, LocalDate data) {
@@ -60,15 +62,7 @@ public class ControleFinanceiro extends Lancamento {
     // Extrato ordenado por data, com saldo acumulado linha a linha
     public ArrayList<ExtratoItem> obterExtratoOrdenado() {
         ArrayList<Lancamento> ordenados = new ArrayList<>(lancamentos);
-        for (int i = 0; i < ordenados.size() - 1; i++) {
-            for (int j = 0; j < ordenados.size() - 1 - i; j++) {
-                if (ordenados.get(j).getData().compareTo(ordenados.get(j + 1).getData()) > 0) {
-                    Lancamento temp = ordenados.get(j);
-                    ordenados.set(j, ordenados.get(j + 1));
-                    ordenados.set(j + 1, temp);
-                }
-            }
-        }
+        ordenados.sort(Comparator.comparing(Lancamento::getData));
 
         ArrayList<ExtratoItem> extrato = new ArrayList<>();
         double saldoAcumulado = 0.0;

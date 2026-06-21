@@ -7,7 +7,7 @@ public class Receita extends Lancamento {
 
     public Receita(String descricao, double valor, LocalDate data, CategoriaReceita categoriaReceita) {
         super(descricao, valor, data);
-        this.categoriaReceita = categoriaReceita;
+        setCategoriaReceita(categoriaReceita);
     }
 
     public CategoriaReceita getCategoriaReceita() {
