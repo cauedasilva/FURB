@@ -2,6 +2,7 @@ package com.caue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ControleFinanceiro extends Lancamento {
     private ArrayList<Lancamento> lancamentos;
@@ -62,17 +63,8 @@ public class ControleFinanceiro extends Lancamento {
      */
     public ArrayList<ExtratoItem> obterExtratoOrdenado() {
         ArrayList<Lancamento> ordenados = new ArrayList<>(lancamentos);
-
-        for (int i = 0; i < ordenados.size() - 1; i++) {
-            for (int j = 0; j < ordenados.size() - 1 - i; j++) {
-                if (ordenados.get(j).getData().compareTo(ordenados.get(j + 1).getData()) > 0) {
-                    Lancamento temp = ordenados.get(j);
-                    ordenados.set(j, ordenados.get(j + 1));
-                    ordenados.set(j + 1, temp);
-                }
-            }
-        }
-
+        Collections.sort(ordenados);
+        
         ArrayList<ExtratoItem> extrato = new ArrayList<>();
         double saldoAcumulado = 0.0;
 

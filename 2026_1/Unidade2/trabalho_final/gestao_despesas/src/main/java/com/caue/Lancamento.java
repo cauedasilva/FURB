@@ -2,7 +2,7 @@ package com.caue;
 
 import java.time.LocalDate;
 
-public abstract class Lancamento {
+public abstract class Lancamento implements Comparable<Lancamento>{
     private String descricao;
     private double valor;
     private LocalDate data;
@@ -17,6 +17,16 @@ public abstract class Lancamento {
         setDescricao(descricao);
         setValor(valor);
         setData(data);
+    }
+
+    /**
+     * Método herdado de Comparable para comparar os lançamentos
+     * @param o lancamento a ser comparado
+     * @return int que o sort() usa pra decidir quem vem primeiro na lista
+     */
+    @Override
+    public int compareTo(Lancamento o) {
+        return this.data.compareTo(o.data);
     }
 
     /**
