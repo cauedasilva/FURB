@@ -1,10 +1,10 @@
 package com.example;
 
-public class ListaEstatica { // Recriação de um ArrayList
+public class ListaEstaticaCorrigido { // Recriação de um ArrayList
     private int[] info; // variável de referência
     private int tamanho;
 
-    public ListaEstatica() {
+    public ListaEstaticaCorrigido() {
         info = new int[10]; // há dois objetos no heap no momento do instanciamento da classe, o objeto ListaEstatica e o vetor
         tamanho = 0;
     }
@@ -68,7 +68,7 @@ public class ListaEstatica { // Recriação de um ArrayList
     }
 
     public int obterElemento(int posicao) {
-        if (posicao < 0 || posicao > tamanho) {
+        if (posicao < 0 || posicao >= tamanho) {
             throw new IndexOutOfBoundsException();
         }
 

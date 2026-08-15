@@ -69,7 +69,7 @@ public class ListaEstaticaPolimorfica<ClasseInformadaPeloProgramador> { // Opera
     }
 
     public ClasseInformadaPeloProgramador obterElemento(int posicao) {
-        if (posicao < 0 || posicao > tamanho) {
+        if (posicao < 0 || posicao >= tamanho) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -96,5 +96,20 @@ public class ListaEstaticaPolimorfica<ClasseInformadaPeloProgramador> { // Opera
         }
 
         return resultado;
+    }
+
+    public void inverter() {
+        int i = 0;
+        int f = tamanho - 1;
+ 
+        while (i < f) {
+            Object temp = info[i];
+            info[i] = info[f];
+            info[f] = temp;
+ 
+            i++;
+            f--;
+        }
+
     }
 }

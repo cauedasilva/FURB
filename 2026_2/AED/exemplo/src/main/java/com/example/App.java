@@ -22,9 +22,9 @@ public class App
         lista.inserir(10);
         lista.inserir(20);
 
-        for (int i=0; i<lista.getTamanho(); i++) {
-            System.out.println(lista.obterElemento(i));
-        }
+        //for (int i=0; i<lista.getTamanho(); i++) {
+        //    System.out.println(lista.obterElemento(i));
+        //}
 
     }
 }
