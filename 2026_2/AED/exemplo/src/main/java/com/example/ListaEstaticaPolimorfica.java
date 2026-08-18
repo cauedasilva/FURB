@@ -60,6 +60,7 @@ public class ListaEstaticaPolimorfica<ClasseInformadaPeloProgramador> { // Opera
         // não faz sentido realizar um comando para atribuir a pos = 0
         // isso não irá economizar memória e irá somente consumir mais processamento
 
+        info[tamanho] = null;
         tamanho--;
     }
 
