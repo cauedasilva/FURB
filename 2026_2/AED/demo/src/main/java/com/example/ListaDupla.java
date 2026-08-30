@@ -40,16 +40,19 @@ public class ListaDupla<T> {
     public void retirar(T valor) {
         NoListaDupla<T> p = buscar(valor);
 
+        // OBS: o if(p.getProximo() != null) original ficava fora do
+        // if(p != null), causando NullPointerException quando o valor
+        // não era encontrado na lista. Movido para dentro para corrigir.
         if (p != null) {
             if (primeiro == p) {
                 primeiro = p.getProximo();
             } else {
                 p.getAnterior().setProximo(p.getProximo());
             }
-        }
 
-        if (p.getProximo() != null) {
-            p.getProximo().setAnterior(p.getAnterior());
+            if (p.getProximo() != null) {
+                p.getProximo().setAnterior(p.getAnterior());
+            }
         }
     }
 
@@ -60,8 +63,8 @@ public class ListaDupla<T> {
         while (p != null) {
             if (p.getProximo() == null) {
                 ultimo = p;
-                while (ultimo.getAnterior() != null)) {
-                    System.out.println(ultimo.toString());
+                while (ultimo != null) {
+                    System.out.println(ultimo.getInfo());
                     ultimo = ultimo.getAnterior();
                 }
             }
@@ -74,8 +77,28 @@ public class ListaDupla<T> {
         NoListaDupla<T> p = this.primeiro;
 
         while (p != null) {
+            NoListaDupla<T> proximo = p.getProximo();
+            p.setProximo(null);
+            p.setAnterior(null);
+            p = proximo;
+        }
 
+        primeiro = null;
+    }
+
+    @Override
+    public String toString() {
+        String resultado = "";
+        NoListaDupla<T> p = this.primeiro;
+
+        while (p != null) {
+            resultado += p.getInfo();
+            if (p.getProximo() != null) {
+                resultado += ", ";
+            }
             p = p.getProximo();
         }
+
+        return resultado;
     }
 }
