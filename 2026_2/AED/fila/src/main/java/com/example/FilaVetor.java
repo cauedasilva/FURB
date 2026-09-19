@@ -20,7 +20,7 @@ public class FilaVetor<T> implements Fila<T> {
         int posicaoInserir;
         posicaoInserir = (inicio + tamanho) % limite;
         info[posicaoInserir] = valor;
-        tamanho--;
+        tamanho++;
     }
 
     public boolean estaVazia() {
@@ -36,6 +36,52 @@ public class FilaVetor<T> implements Fila<T> {
     }
 
     public T retirar() {
-        
+        T valor = peek();
+ 
+        info[inicio] = null;
+        inicio = (inicio + 1) % limite;
+        tamanho--;
+ 
+        return valor;
+
     }
+
+    public void liberar() {
+        while (!estaVazia()) {
+            retirar();
+        }
+    }
+
+    @Override 
+    public String toString() {
+        String resultado = "";
+ 
+        for (int i = 0; i < tamanho; i++) {
+            resultado += info[(inicio + i) % limite];
+            if (i < tamanho - 1) {
+                resultado += ",";
+            }
+        }
+ 
+        return resultado;
+
+    }
+
+    public int getLimite() {
+        return limite;
+    }
+
+    public FilaVetor<T> criarFilaConcatenada(FilaVetor<T> f2) {
+        FilaVetor<T> filaConcatenada = new FilaVetor<>(this.limite + f2.limite);
+ 
+        for (int i = 0; i < this.tamanho; i++) {
+            filaConcatenada.inserir((T) this.info[(this.inicio + i) % this.limite]);
+        }
+ 
+        for (int i = 0; i < f2.tamanho; i++) {
+            filaConcatenada.inserir((T) f2.info[(f2.inicio + i) % f2.limite]);
+        }
+ 
+        return filaConcatenada;
+
 }
