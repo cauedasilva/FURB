@@ -29,6 +29,8 @@ public class FilaLista<T> implements Fila<T> {
     }
 
     public void liberar() {
+        lista = new ListaEncadeada<>(); // outra maneira, o esforço será o mesmo devido ao coletor de lixo, mas é mais eficiente
+        
         while (!estaVazia()) {
             retirar();
         }

@@ -65,6 +65,18 @@ public class FilaVetor<T> implements Fila<T> {
  
         return resultado;
 
+        String retorno = "";
+
+        for (int i = inicio; i < inicio + tamanho; i++) {
+            if (i != inicio) {
+                retorno == ",";
+            }
+            
+            retorno = retorno + info[i % limite];
+        }
+
+        return retorno;
+
     }
 
     public int getLimite() {
